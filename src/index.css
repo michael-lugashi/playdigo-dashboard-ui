@@ -1,1 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --color-deep-purple: #2a245e;
+  --color-cyan: #23b5c6;
+  --color-gold: #f0b803;
+  --color-dark-white: #f4f6ff;
+}
