@@ -1,10 +1,22 @@
 import playdigoLogo from '../../assets/images/playdigo_logo.jpeg';
 import { useState } from 'react';
 import TextField from '../general/TextField';
+import { playdigoLogin } from '../../services/playdigoClient';
+import { useNavigate } from 'react-router';
+import useAuth from '../../hooks/useAuth';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { setAuthToken } = useAuth();
+  const navigate = useNavigate();
+
+  const submitLogin = async () => {
+    const token = await playdigoLogin(email, password);
+    setAuthToken(token);
+    navigate('/');
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-dark-white p-4">
       <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
@@ -20,7 +32,12 @@ function Login() {
           type="password"
           onChange={setPassword}
         />
-        <button className="w-full bg-deep-purple text-white p-3 rounded-lg hover:bg-cyan transition">Login</button>
+        <button
+          onClick={submitLogin}
+          className="w-full bg-deep-purple text-white p-3 mt-2 rounded-lg hover:bg-cyan transition"
+        >
+          Login
+        </button>
       </div>
     </div>
   );
