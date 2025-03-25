@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Vite + Chrome Debug",
+      "configurations": ["Launch Dev Server", "Attach to Chrome"]
+    }
+  ],
+  "configurations": [
+    {
+      "name": "Launch Dev Server",
+      "type": "node-terminal",
+      "command": "npm run dev",
+      "request": "launch"
+    },
+    {
+      "name": "Attach to Chrome",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:5176",
+      "webRoot": "${workspaceFolder}/src"
+    }
+  ]
+}
