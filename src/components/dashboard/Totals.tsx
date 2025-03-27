@@ -2,7 +2,6 @@ interface TotalsData {
   spend: string;
   impressions: string;
   clicks: string;
-  [key: string]: string;
 }
 
 interface TotalsProps {
