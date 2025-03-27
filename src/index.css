@@ -8,7 +8,7 @@
 }
 
 @utility widget-box {
-  @apply rounded shadow border border-gray-200 bg-white m-2;
+  @apply rounded shadow border border-gray-200 bg-white;
 }
 @utility scrollbar-thin {
   &::-webkit-scrollbar-thumb {
