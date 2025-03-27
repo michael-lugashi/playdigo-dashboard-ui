@@ -7,7 +7,7 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = ({ headers, tableData }) => (
-  <div className="scrollbar-thin overflow-x-auto rounded shadow border border-gray-200 max-w-[1300px] w-11/12 max-h-[500px]">
+  <div className="scrollbar-thin overflow-x-auto max-h-[500px] widget-box w-full">
     <table className="min-w-full text-sm">
       <TableHead headers={headers} />
       <tbody>

@@ -7,6 +7,9 @@
   --color-dark-white: #f4f6ff;
 }
 
+@utility widget-box {
+  @apply rounded shadow border border-gray-200 bg-white m-2;
+}
 @utility scrollbar-thin {
   &::-webkit-scrollbar-thumb {
     border: 0.2vw solid rgba(0, 0, 0, 0);
