@@ -17,3 +17,8 @@ export const playdigoLogin = async (email: string, password: string) => {
     console.log(error);
   }
 };
+
+export const getPlaydigoDashboardData = async () => {
+  const res = await playdigoClient.get('dashboard/data');
+  return res.data;
+};
