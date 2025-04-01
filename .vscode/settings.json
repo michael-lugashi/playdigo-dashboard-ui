@@ -1,0 +1,12 @@
+{
+  "workbench.colorCustomizations": {
+    "statusBar.noFolderBackground": "#212121",
+    "statusBar.background": "#90f6ff",
+    "statusBar.foreground": "#000000",
+    "statusBar.debuggingBackground": "#00eaff",
+    "statusBar.debuggingForeground": "#000000"
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  }
+}

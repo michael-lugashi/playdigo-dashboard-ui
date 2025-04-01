@@ -1,25 +1,33 @@
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import playdigoClient from '../../services/playdigoClient';
 import useAuth from '../../hooks/useAuth';
+import Modal from './Modal';
+import PackmanLoader from './PackmanLoader';
 
-const AxiosInterceptor = ({ children }: { children: ReactNode }) => {
+const AxiosInterceptor: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const { authToken } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSet, setIsSet] = useState(false);
 
   useEffect(() => {
+    setIsSet(true);
     const resInterceptor = (response: AxiosResponse) => {
+      setIsLoading(false);
       return response;
     };
 
     const reqInterceptor = (config: InternalAxiosRequestConfig) => {
+      setIsLoading(true);
       if (!authToken) return config;
       config.headers.Authorization = `Bearer ${authToken}`;
       return config;
     };
 
     const errInterceptor = (error: AxiosError) => {
+      setIsLoading(false);
       if (error?.response?.status === 401) {
         navigate('/login');
       }
@@ -36,7 +44,16 @@ const AxiosInterceptor = ({ children }: { children: ReactNode }) => {
     };
   }, [navigate, authToken]);
 
-  return <>{children}</>;
+  return (
+    isSet && (
+      <>
+        <Modal isOpen={isLoading}>
+          <PackmanLoader />
+        </Modal>
+        {children}
+      </>
+    )
+  );
 };
 
 export default AxiosInterceptor;
