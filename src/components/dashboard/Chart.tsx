@@ -21,7 +21,7 @@ const Chart = ({ graphData }: ChartProps) => {
         {/* Left Y-Axis for Spend */}
         <YAxis
           yAxisId="left"
-          label={{ value: 'Spend', angle: -90, position: 'insideLeft' }}
+          label={{ value: 'Spend', angle: 0, position: 'top', offset: 17, dx: 30 }}
           tickFormatter={(v: number) => `$${formatNumber(v)}`}
         />
 
@@ -29,7 +29,7 @@ const Chart = ({ graphData }: ChartProps) => {
         <YAxis
           yAxisId="right"
           orientation="right"
-          label={{ value: 'Impressions', angle: 90, position: 'insideRight' }}
+          label={{ value: 'Impressions', angle: 0, position: 'top', offset: 17, dx: -30 }}
           tickFormatter={(v: number) => formatNumber(v)}
         />
 
