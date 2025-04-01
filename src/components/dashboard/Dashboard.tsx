@@ -35,17 +35,18 @@ function Dashboard() {
     displayGraphData.length ? new Date(displayGraphData[displayGraphData.length - 1]?.date) : new Date()
   ).toLocaleDateString();
 
+  const fetchDashboardData = async () => {
+    try {
+      const { tableData: td, graphData, headers } = await getPlaydigoDashboardData();
+      setTableData(td);
+      setGraphData(graphData);
+      setHeaders(headers);
+    } catch {
+      setDisplayErrorPopup(true);
+    }
+  };
+
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const { tableData: td, graphData, headers } = await getPlaydigoDashboardData();
-        setTableData(td);
-        setGraphData(graphData);
-        setHeaders(headers);
-      } catch {
-        setDisplayErrorPopup(true);
-      }
-    };
     fetchDashboardData();
   }, []);
 
@@ -55,7 +56,7 @@ function Dashboard() {
         <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
           <ErrorDisplay />
         </Popup>
-        <Banner lastUpdated={lastUpdated} />
+        <Banner lastUpdated={lastUpdated} onRefresh={fetchDashboardData} />
         <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
         <Totals totals={calculatedTotals} />
         <Chart graphData={displayGraphData} />
