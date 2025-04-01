@@ -27,7 +27,7 @@ const Table: React.FC<TableProps> = ({ headers, tableData }) => {
         />
         <tbody>
           {sortedTableData.map((rowData, i) => (
-            <tr className={`hover:bg-cyan-100 ${i % 2 ? 'bg-dark-white' : 'bg-white'}`}>
+            <tr key={rowData[0]} className={`hover:bg-cyan-100 ${i % 2 ? 'bg-dark-white' : 'bg-white'}`}>
               {rowData.map((text) => (
                 <td key={text} className="px-4 py-2 whitespace-nowrap">
                   {text}
