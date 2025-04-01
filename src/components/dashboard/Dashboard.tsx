@@ -26,7 +26,7 @@ function Dashboard() {
   const [tableData, setTableData] = useState<TableDataRow[]>([]);
   const [graphData, setGraphData] = useState<GraphDataPoint[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
-  const [displayErrorPopup, setDisplayErrorPopup] = useState(true);
+  const [displayErrorPopup, setDisplayErrorPopup] = useState(false);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState(7);
   const displayGraphData = graphData.slice(0, selectedTimeFrame);
   const displayTableData = tableData.slice(0, selectedTimeFrame);
