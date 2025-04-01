@@ -28,6 +28,9 @@ function Dashboard() {
   const displayGraphData = graphData.slice(0, selectedTimeFrame);
   const displayTableData = tableData.slice(0, selectedTimeFrame);
   const calculatedTotals = calculateTotals(displayGraphData, displayTableData);
+  const lastUpdated = (
+    displayGraphData.length ? new Date(displayGraphData[displayGraphData.length - 1]?.date) : new Date()
+  ).toLocaleDateString();
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -41,7 +44,7 @@ function Dashboard() {
   return (
     <div className="min-h-screen bg-dark-white flex flex-col items-center p-2">
       <div className="w-full max-w-[1500px] flex flex-col gap-2 items-center">
-        <Banner />
+        <Banner lastUpdated={lastUpdated} />
         <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
         <Totals totals={calculatedTotals} />
         <Chart graphData={displayGraphData} />
