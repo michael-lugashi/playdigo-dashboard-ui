@@ -5,6 +5,9 @@ import Chart from './Chart';
 import TimeFrame from './TimeFrame';
 import Totals from './Totals';
 import Banner from './Banner';
+import ErrorDisplay from './ErrorDisplay';
+import Popup from '../general/Popup';
+
 interface GraphDataPoint {
   date: string;
   impressions: number;
@@ -23,6 +26,7 @@ function Dashboard() {
   const [tableData, setTableData] = useState<TableDataRow[]>([]);
   const [graphData, setGraphData] = useState<GraphDataPoint[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
+  const [displayErrorPopup, setDisplayErrorPopup] = useState(true);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState(7);
   const displayGraphData = graphData.slice(0, selectedTimeFrame);
   const displayTableData = tableData.slice(0, selectedTimeFrame);
@@ -33,16 +37,24 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchDashboardData = async () => {
-      const { tableData: td, graphData, headers } = await getPlaydigoDashboardData();
-      setTableData(td);
-      setGraphData(graphData);
-      setHeaders(headers);
+      try {
+        const { tableData: td, graphData, headers } = await getPlaydigoDashboardData();
+        setTableData(td);
+        setGraphData(graphData);
+        setHeaders(headers);
+      } catch {
+        setDisplayErrorPopup(true);
+      }
     };
     fetchDashboardData();
   }, []);
+
   return (
     <div className="min-h-screen bg-dark-white flex flex-col items-center p-2">
       <div className="w-full max-w-[1500px] flex flex-col gap-2 items-center">
+        <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
+          <ErrorDisplay />
+        </Popup>
         <Banner lastUpdated={lastUpdated} />
         <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
         <Totals totals={calculatedTotals} />
