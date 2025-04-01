@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getPlaydigoDashboardData } from '../../services/playdigoClient';
 import Table from './Table';
 import Chart from './Chart';
@@ -20,7 +20,6 @@ interface TotalsData {
 }
 
 function Dashboard() {
-  // const { tableData, graphData, headers } = use(getPlaydigoDashboardData());
   const [tableData, setTableData] = useState<TableDataRow[]>([]);
   const [graphData, setGraphData] = useState<GraphDataPoint[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
