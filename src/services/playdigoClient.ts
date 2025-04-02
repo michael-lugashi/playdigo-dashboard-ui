@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const playdigoClient = axios.create({
-  baseURL: 'http://127.0.0.1:3000',
+  baseURL: 'http://16.171.31.249',
   headers: {
     'Content-Type': 'application/json',
   },
