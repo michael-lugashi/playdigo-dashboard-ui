@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useLayoutEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import playdigoClient from '../../services/playdigoClient';
 import useAuth from '../../hooks/useAuth';
@@ -12,7 +12,7 @@ const AxiosInterceptor: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSet, setIsSet] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsSet(true);
     const resInterceptor = (response: AxiosResponse) => {
       setIsLoading(false);
