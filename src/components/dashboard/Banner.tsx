@@ -2,7 +2,7 @@ import React from 'react';
 import playdigoLogo from '../../assets/images/playdigo_logo.jpeg';
 
 interface BannerProps {
-  lastUpdated: string;
+  lastUpdated?: string | null;
   onRefresh: () => void;
 }
 
@@ -23,9 +23,11 @@ const Banner: React.FC<BannerProps> = ({ lastUpdated, onRefresh }) => {
         </div>
       </div>
       <div className="hidden md:flex items-center gap-2">
-        <div className="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
-          Last updated: {lastUpdated}
-        </div>
+        {lastUpdated && (
+          <div className="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium">
+            Last updated: {lastUpdated}
+          </div>
+        )}
         <button
           onClick={onRefresh}
           className="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2"

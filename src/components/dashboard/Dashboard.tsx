@@ -31,9 +31,7 @@ function Dashboard() {
   const displayGraphData = graphData.slice(0, selectedTimeFrame);
   const displayTableData = tableData.slice(0, selectedTimeFrame);
   const calculatedTotals = calculateTotals(displayGraphData, displayTableData);
-  const lastUpdated = (
-    displayGraphData.length ? new Date(displayGraphData[displayGraphData.length - 1]?.date) : new Date()
-  ).toLocaleDateString();
+  const lastUpdated = graphData.length ? new Date(graphData[graphData.length - 1]?.date).toLocaleDateString() : null;
 
   const fetchDashboardData = async () => {
     try {
