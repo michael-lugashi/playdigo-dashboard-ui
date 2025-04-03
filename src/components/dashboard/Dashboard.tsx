@@ -28,8 +28,8 @@ function Dashboard() {
   const [headers, setHeaders] = useState<string[]>([]);
   const [displayErrorPopup, setDisplayErrorPopup] = useState(false);
   const [selectedTimeFrame, setSelectedTimeFrame] = useState(7);
-  const displayGraphData = graphData.slice(0, selectedTimeFrame);
-  const displayTableData = tableData.slice(0, selectedTimeFrame);
+  const displayGraphData = graphData.slice(Math.max(0, graphData.length - selectedTimeFrame), graphData.length);
+  const displayTableData = tableData.slice(Math.max(0, tableData.length - selectedTimeFrame), tableData.length);
   const calculatedTotals = calculateTotals(displayGraphData, displayTableData);
   const lastUpdated = graphData.length ? new Date(graphData[graphData.length - 1]?.date).toLocaleDateString() : null;
 
