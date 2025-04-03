@@ -81,7 +81,10 @@ const calculateTotals = (graphData: GraphDataPoint[], tableData: TableDataRow[])
 
   // Format the values
   return {
-    spend: `$${totals.spend.toFixed(2).toLocaleString()}`,
+    spend: totals.spend.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }),
     impressions: totals.impressions.toLocaleString(),
     clicks: totals.clicks.toLocaleString(),
   };
