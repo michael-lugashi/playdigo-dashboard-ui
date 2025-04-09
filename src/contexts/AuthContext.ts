@@ -1,9 +1,13 @@
 import { createContext } from 'react';
 
-type AuthContextType = {
+interface AuthContextType {
   authToken: string | null;
   setAuthToken: (token: string) => void;
-};
+  isAdmin: boolean;
+  institutionName: string | null;
+  setIsAdmin: (isAdmin: boolean) => void;
+  setInstitutionName: (institutionName: string) => void;
+}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

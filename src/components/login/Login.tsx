@@ -15,7 +15,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<FormErrors>({ email: '', password: '' });
   const [formError, setFormError] = useState('');
-  const { setAuthToken } = useAuth();
+  const { setAuthToken, setIsAdmin, setInstitutionName } = useAuth();
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -31,9 +31,11 @@ function Login() {
     if (!validateForm()) return;
 
     try {
-      const token = await playdigoLogin(email, password);
+      const { token, role, institutionName } = await playdigoLogin(email, password);
       setAuthToken(token);
-      navigate('/');
+      setIsAdmin(role === 'ADMIN');
+      setInstitutionName(institutionName);
+      await navigate('/');
     } catch {
       setFormError('Invalid email or password');
       setEmail('');
@@ -78,7 +80,8 @@ function Login() {
           error={errors.password}
         />
         <button
-          onClick={submitLogin}
+          onClick={() => void submitLogin()}
+          type="button"
           className="w-full bg-deep-purple text-lg  text-white p-3 mt-5 rounded-lg hover:bg-cyan transition transform active:scale-105 cursor-pointer"
         >
           Login

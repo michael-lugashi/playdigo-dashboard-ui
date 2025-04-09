@@ -16,6 +16,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose, children, isCloseOnBackD
       <div className="relative bg-white p-6 rounded-lg shadow-lg">
         <button
           onClick={onClose}
+          type="button"
           className="cursor-pointer absolute text-4xl font-black -top-1 right-1 text-deep-purple font-stretch-110% tracking-wider hover:scale-110 active:scale-125 transition-transform duration-200"
         >
           ×

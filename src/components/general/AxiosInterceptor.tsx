@@ -26,13 +26,13 @@ const AxiosInterceptor: React.FC<{ children: ReactNode }> = ({ children }) => {
       return config;
     };
 
-    const errInterceptor = (error: AxiosError) => {
+    const errInterceptor = async (error: AxiosError) => {
       setIsLoading(false);
-      if (error?.response?.status === 401) {
-        navigate('/login');
+      if (error.response?.status === 401) {
+        await navigate('/login');
       }
 
-      return Promise.reject(error);
+      throw error;
     };
 
     const responseInterceptor = playdigoClient.interceptors.response.use(resInterceptor, errInterceptor);
