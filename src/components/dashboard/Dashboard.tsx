@@ -54,7 +54,7 @@ function Dashboard() {
     <div className="min-h-screen bg-dark-white flex flex-col items-center p-2">
       <div className="w-full max-w-[1500px] flex flex-col gap-2 items-center">
         <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
-          <ErrorDisplay />
+          <ErrorDisplay onClose={() => setDisplayErrorPopup(false)} />
         </Popup>
         <Banner
           graphOptions={graphOptions}
