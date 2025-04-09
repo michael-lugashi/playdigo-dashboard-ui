@@ -1,9 +1,9 @@
-import { useState, useCallback, ReactNode } from 'react';
+import { useState, useCallback, ReactNode, useMemo } from 'react';
 import AuthContext from '../../contexts/AuthContext';
 
-type AuthProviderProps = {
+interface AuthProviderProps {
   children: ReactNode;
-};
+}
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [authToken, setAuthT] = useState(localStorage.getItem('token'));
@@ -14,5 +14,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     localStorage.setItem('token', token);
   }, []);
 
-  return <AuthContext.Provider value={{ authToken, setAuthToken }}>{children}</AuthContext.Provider>;
+  const value = useMemo(() => ({ authToken, setAuthToken }), [authToken, setAuthToken]);
+
+  return <AuthContext value={value}>{children}</AuthContext>;
 }

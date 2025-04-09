@@ -23,6 +23,7 @@ const TimeFrame: React.FC<TimeFrameProps> = ({ setSelectedTimeFrame }) => {
       {timeFrameButtons.map(({ label, value }) => (
         <button
           key={value}
+          type="button"
           className="px-4 py-2 rounded hover:bg-cyan-100 transition-transform duration-150 active:scale-105 cursor-pointer focus:outline-none"
           onClick={() => setSelectedTimeFrame(value)}
         >

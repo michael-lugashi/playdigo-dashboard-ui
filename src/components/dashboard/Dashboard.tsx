@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getPlaydigoDashboardData } from '../../services/playdigoClient';
+import { GraphDataPoint, TableDataRow } from '../../services/playdigoClient.types';
 import Table from './Table';
 import Chart from './Chart';
 import TimeFrame from './TimeFrame';
@@ -7,14 +8,6 @@ import Totals from './Totals';
 import Banner from './Banner';
 import ErrorDisplay from './ErrorDisplay';
 import Popup from '../general/Popup';
-
-interface GraphDataPoint {
-  date: string;
-  impressions: number;
-  spend: number;
-}
-
-type TableDataRow = string[];
 
 interface TotalsData {
   spend: string;
@@ -45,7 +38,7 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    fetchDashboardData();
+    void fetchDashboardData();
   }, []);
 
   return (
@@ -54,7 +47,7 @@ function Dashboard() {
         <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
           <ErrorDisplay />
         </Popup>
-        <Banner lastUpdated={lastUpdated} onRefresh={fetchDashboardData} />
+        <Banner lastUpdated={lastUpdated} onRefresh={() => void fetchDashboardData()} />
         <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
         <Totals totals={calculatedTotals} />
         <Chart graphData={displayGraphData} />

@@ -33,7 +33,7 @@ function Login() {
     try {
       const token = await playdigoLogin(email, password);
       setAuthToken(token);
-      navigate('/');
+      await navigate('/');
     } catch {
       setFormError('Invalid email or password');
       setEmail('');
@@ -78,7 +78,8 @@ function Login() {
           error={errors.password}
         />
         <button
-          onClick={submitLogin}
+          onClick={() => void submitLogin()}
+          type="button"
           className="w-full bg-deep-purple text-lg  text-white p-3 mt-5 rounded-lg hover:bg-cyan transition transform active:scale-105 cursor-pointer"
         >
           Login

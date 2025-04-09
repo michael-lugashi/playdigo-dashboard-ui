@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 
-type AuthContextType = {
+interface AuthContextType {
   authToken: string | null;
   setAuthToken: (token: string) => void;
-};
+}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

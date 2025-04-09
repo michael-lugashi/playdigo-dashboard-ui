@@ -16,7 +16,7 @@ export default tseslint.config(
       globals: globals.browser,
       parser: tseslint.parser,
       parserOptions: {
-        project: ['./tsconfig.app.json'],
+        project: ['./tsconfig.app.json', './tsconfig.node.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -31,6 +31,12 @@ export default tseslint.config(
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       ...reactX.configs['recommended-typescript'].rules,
       ...reactDom.configs.recommended.rules,
+      '@typescript-eslint/no-confusing-void-expression': [
+        'error',
+        {
+          ignoreVoidReturningFunctions: true,
+        },
+      ],
     },
   }
 );
