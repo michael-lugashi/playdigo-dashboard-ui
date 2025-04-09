@@ -10,7 +10,12 @@ export interface GraphDataPoint {
   spend: number;
 }
 
-export type TableDataRow = string[];
+interface TableDataCell {
+  formatted: string;
+  value: number;
+}
+
+export type TableDataRow = TableDataCell[];
 
 export interface DashboardData {
   tableData: TableDataRow[];

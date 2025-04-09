@@ -13,12 +13,21 @@ const playdigoClient = axios.create({
 
 export default playdigoClient;
 
-export const playdigoLogin = async (email: string, password: string): Promise<string> => {
+export const playdigoLogin = async (email: string, password: string): Promise<AuthResponse> => {
   const res = await playdigoClient.post<AuthResponse>('auth/authenticate', { email, password });
-  return res.data.token;
+  return res.data;
 };
 
-export const getPlaydigoDashboardData = async (): Promise<DashboardData> => {
-  const res = await playdigoClient.get<DashboardData>('dashboard/data');
+export const getPlaydigoGraphOptions = async (): Promise<string[]> => {
+  const res = await playdigoClient.get<string[]>('users/sheet-options');
+  return res.data;
+};
+
+export const getPlaydigoDashboardData = async (graphOption: string): Promise<DashboardData> => {
+  const res = await playdigoClient.get<DashboardData>('dashboard/data', {
+    params: {
+      sheetName: graphOption,
+    },
+  });
   return res.data;
 };
