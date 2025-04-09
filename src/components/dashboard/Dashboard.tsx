@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPlaydigoDashboardData } from '../../services/playdigoClient';
+import { getPlaydigoDashboardData, getPlaydigoGraphOptions } from '../../services/playdigoClient';
 import { GraphDataPoint, TableDataRow } from '../../services/playdigoClient.types';
 import Table from './Table';
 import Chart from './Chart';
@@ -8,6 +8,7 @@ import Totals from './Totals';
 import Banner from './Banner';
 import ErrorDisplay from './ErrorDisplay';
 import Popup from '../general/Popup';
+import useAuth from '../../hooks/useAuth';
 
 interface TotalsData {
   spend: string;
@@ -16,6 +17,9 @@ interface TotalsData {
 }
 
 function Dashboard() {
+  const { institutionName } = useAuth();
+  const [graphOptions, setGraphOptions] = useState<string[]>([]);
+  const [curGraphOption, setCurGraphOption] = useState<string>('');
   const [tableData, setTableData] = useState<TableDataRow[]>([]);
   const [graphData, setGraphData] = useState<GraphDataPoint[]>([]);
   const [headers, setHeaders] = useState<string[]>([]);
@@ -23,12 +27,12 @@ function Dashboard() {
   const [selectedTimeFrame, setSelectedTimeFrame] = useState(7);
   const displayGraphData = graphData.slice(Math.max(0, graphData.length - selectedTimeFrame), graphData.length);
   const displayTableData = tableData.slice(Math.max(0, tableData.length - selectedTimeFrame), tableData.length);
-  const calculatedTotals = calculateTotals(displayGraphData, displayTableData);
+  const calculatedTotals = calculateTotals(displayTableData);
   const lastUpdated = graphData.length ? new Date(graphData[graphData.length - 1]?.date).toLocaleDateString() : null;
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = async (graphOption: string) => {
     try {
-      const { tableData: td, graphData, headers } = await getPlaydigoDashboardData();
+      const { tableData: td, graphData, headers } = await getPlaydigoDashboardData(graphOption);
       setTableData(td);
       setGraphData(graphData);
       setHeaders(headers);
@@ -38,7 +42,12 @@ function Dashboard() {
   };
 
   useEffect(() => {
-    void fetchDashboardData();
+    void (async () => {
+      const graphOptions = await getPlaydigoGraphOptions();
+      setGraphOptions(graphOptions);
+      setCurGraphOption(graphOptions[0]);
+      await fetchDashboardData(graphOptions[0]);
+    })();
   }, []);
 
   return (
@@ -47,7 +56,14 @@ function Dashboard() {
         <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
           <ErrorDisplay />
         </Popup>
-        <Banner lastUpdated={lastUpdated} onRefresh={() => void fetchDashboardData()} />
+        <Banner
+          graphOptions={graphOptions}
+          curGraphOption={curGraphOption}
+          setCurGraphOption={setCurGraphOption}
+          institutionName={institutionName}
+          lastUpdated={lastUpdated}
+          fetchDashboardData={fetchDashboardData}
+        />
         <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
         <Totals totals={calculatedTotals} />
         <Chart graphData={displayGraphData} />
@@ -57,20 +73,17 @@ function Dashboard() {
   );
 }
 
-const calculateTotals = (graphData: GraphDataPoint[], tableData: TableDataRow[]): TotalsData => {
-  const totals = graphData.reduce(
-    (acc: { spend: number; impressions: number; clicks: number }, curr: GraphDataPoint) => {
+const calculateTotals = (tableData: TableDataRow[]): TotalsData => {
+  const totals = tableData.reduce(
+    (acc: { spend: number; impressions: number; clicks: number }, curr: TableDataRow) => {
       return {
-        spend: acc.spend + curr.spend,
-        impressions: acc.impressions + curr.impressions,
-        clicks: acc.clicks,
+        spend: acc.spend + curr[1].value,
+        impressions: acc.impressions + curr[2].value,
+        clicks: acc.clicks + curr[3].value,
       };
     },
     { spend: 0, impressions: 0, clicks: 0 }
   );
-
-  // Calculate clicks from table data
-  totals.clicks = tableData.reduce((acc: number, curr: TableDataRow) => acc + Number(curr[3].replace(',', '')), 0);
 
   // Format the values
   return {
