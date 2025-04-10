@@ -55,25 +55,23 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-dark-white flex flex-col items-center p-2">
-      <div className="w-full max-w-[1500px] flex flex-col gap-2 items-center">
-        <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
-          <ErrorDisplay onClose={() => setDisplayErrorPopup(false)} />
-        </Popup>
-        <Banner
-          graphOptions={graphOptions}
-          curGraphOption={curGraphOption}
-          setCurGraphOption={setCurGraphOption}
-          institutionName={institutionName}
-          lastUpdated={lastUpdated}
-          fetchDashboardData={fetchDashboardData}
-        />
+    <div className="bg-dark-white last:flex-nowrap h-screen p-2 w-full flex flex-col gap-2 ">
+      <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
+        <ErrorDisplay onClose={() => setDisplayErrorPopup(false)} />
+      </Popup>
+      <Banner
+        graphOptions={graphOptions}
+        curGraphOption={curGraphOption}
+        setCurGraphOption={setCurGraphOption}
+        institutionName={institutionName}
+        lastUpdated={lastUpdated}
+        fetchDashboardData={fetchDashboardData}
+      />
 
-        <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
-        <Totals totals={calculatedTotals} />
-        <Chart graphData={displayGraphData} />
-        <Table tableData={displayTableData} headers={headers} />
-      </div>
+      <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
+      <Totals totals={calculatedTotals} />
+      <Chart graphData={displayGraphData} />
+      <Table tableData={displayTableData} headers={headers} />
     </div>
   );
 }

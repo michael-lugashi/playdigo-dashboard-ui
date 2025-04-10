@@ -16,7 +16,7 @@ const Table: React.FC<TableProps> = ({ headers, tableData }) => {
   });
 
   return (
-    <div className="scrollbar-thin overflow-x-auto max-h-[500px] widget-box w-full">
+    <div className="scrollbar-thin overflow-x-auto max-h-fit min-h-1/3 widget-box w-full">
       <table className="min-w-full text-sm">
         <TableHead
           headers={headers}
