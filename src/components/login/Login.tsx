@@ -4,6 +4,7 @@ import TextField from '../general/TextField';
 import { playdigoLogin } from '../../services/playdigoClient';
 import { useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import useEnterKeyPress from '../../contexts/useEnterKeyPress';
 
 interface FormErrors {
   email: string;
@@ -17,6 +18,7 @@ function Login() {
   const [formError, setFormError] = useState('');
   const { setAuthToken, setIsAdmin, setInstitutionName } = useAuth();
   const navigate = useNavigate();
+  const loginButtonRef = useEnterKeyPress<HTMLButtonElement>();
 
   const validateForm = () => {
     setFormError('');
@@ -80,9 +82,10 @@ function Login() {
           error={errors.password}
         />
         <button
+          ref={loginButtonRef}
           onClick={() => void submitLogin()}
           type="button"
-          className="w-full bg-deep-purple text-lg  text-white p-3 mt-5 rounded-lg hover:bg-cyan transition transform active:scale-105 cursor-pointer"
+          className="w-full bg-deep-purple text-lg  text-white p-3 mt-5 rounded-lg hover:bg-cyan transition transform hover:scale-105 active:scale-95 cursor-pointer"
         >
           Login
         </button>
