@@ -43,10 +43,14 @@ function Dashboard() {
 
   useEffect(() => {
     void (async () => {
-      const graphOptions = await getPlaydigoGraphOptions();
-      setGraphOptions(graphOptions);
-      setCurGraphOption(graphOptions[0]);
-      await fetchDashboardData(graphOptions[0]);
+      try {
+        const graphOptions = await getPlaydigoGraphOptions();
+        setGraphOptions(graphOptions);
+        setCurGraphOption(graphOptions[0]);
+        await fetchDashboardData(graphOptions[0]);
+      } catch {
+        setDisplayErrorPopup(true);
+      }
     })();
   }, []);
 
@@ -64,6 +68,7 @@ function Dashboard() {
           lastUpdated={lastUpdated}
           fetchDashboardData={fetchDashboardData}
         />
+
         <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
         <Totals totals={calculatedTotals} />
         <Chart graphData={displayGraphData} />
