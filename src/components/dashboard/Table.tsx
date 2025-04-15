@@ -10,14 +10,15 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({ headers, tableData }) => {
   const [sortByHeader, setSortByHeader] = useState<number>(0);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
   const sortedTableData = [...tableData].sort((a, b) => {
     const [valueA, valueB] = [a[sortByHeader].value, b[sortByHeader].value];
     return sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
   });
 
   return (
-    <div className="scrollbar-thin overflow-x-auto max-h-fit min-h-1/3 widget-box w-full">
-      <table className="min-w-full text-sm">
+    <div className="scrollbar-thin overflow-x-auto min-h-60 widget-box w-full">
+      <table className="min-w-full text-sm ">
         <TableHead
           headers={headers}
           sortByHeader={sortByHeader}
