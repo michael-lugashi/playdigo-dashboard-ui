@@ -17,7 +17,6 @@ interface TotalsData {
 }
 
 function Dashboard() {
-  const { institutionName } = useAuth();
   const [graphOptions, setGraphOptions] = useState<string[]>([]);
   const [curGraphOption, setCurGraphOption] = useState<string>('');
   const [tableData, setTableData] = useState<TableDataRow[]>([]);
@@ -55,7 +54,7 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="bg-dark-white last:flex-nowrap h-screen p-2 w-full flex flex-col gap-2 ">
+    <div className="bg-dark-white last:flex-1 h-screen p-2 w-full flex flex-col gap-2">
       <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
         <ErrorDisplay onClose={() => setDisplayErrorPopup(false)} />
       </Popup>
@@ -63,7 +62,6 @@ function Dashboard() {
         graphOptions={graphOptions}
         curGraphOption={curGraphOption}
         setCurGraphOption={setCurGraphOption}
-        institutionName={institutionName}
         lastUpdated={lastUpdated}
         fetchDashboardData={fetchDashboardData}
       />

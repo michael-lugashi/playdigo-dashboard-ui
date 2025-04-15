@@ -1,11 +1,11 @@
 import React from 'react';
 import playdigoLogo from '../../assets/images/playdigo_logo.jpeg';
 import CustomDropdown from '../general/CustomDropdown';
-import { RefreshIcon } from '../svgs';
-
+import { RefreshIcon, SettingsIcon } from '../svgs';
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router';
 interface BannerProps {
   lastUpdated?: string | null;
-  institutionName: string | null;
   fetchDashboardData: (graphOption: string) => Promise<void>;
   graphOptions: string[];
   curGraphOption: string;
@@ -14,12 +14,13 @@ interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({
   lastUpdated,
-  institutionName,
   fetchDashboardData,
   graphOptions,
   curGraphOption,
   setCurGraphOption,
 }) => {
+  const { institutionName, isAdmin } = useAuth();
+  const navigate = useNavigate();
   // Only show graph selector if there are multiple options
   const showGraphSelector = graphOptions.length > 1;
 
@@ -50,6 +51,18 @@ const Banner: React.FC<BannerProps> = ({
       </div>
 
       <div className="hidden md:flex items-center gap-2">
+        {isAdmin && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => void navigate('/admin')}
+              type="button"
+              className="px-4 flex items-center gap-2 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium cursor-pointer hover:bg-blue-100 transition-colors duration-200"
+            >
+              <SettingsIcon className="h-4 w-4" />
+              Admin
+            </button>
+          </div>
+        )}
         {showGraphSelector && (
           <CustomDropdown
             options={graphOptions}
