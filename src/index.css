@@ -10,6 +10,27 @@
 @utility widget-box {
   @apply rounded shadow border border-gray-200 bg-white;
 }
+
+@utility button-scale-5 {
+  @apply hover:scale-105 active:scale-95 transition-all duration-300;
+}
+
+@utility button-scale-10 {
+  @apply hover:scale-110 active:scale-95 transition-all duration-300;
+}
+
+@utility button-primary {
+  @apply bg-deep-purple text-white hover:bg-cyan transition-all duration-200 cursor-pointer rounded-md;
+}
+
+@utility button-cancel {
+  @apply bg-red-600 text-white hover:bg-red-500 transition-all duration-200 cursor-pointer rounded-md;
+}
+
+@utility button-neutral {
+  @apply bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all duration-200 cursor-pointer rounded-md;
+}
+
 @utility scrollbar-thin {
   &::-webkit-scrollbar-thumb {
     border: min(0.2vw, 2px) solid rgba(0, 0, 0, 0);
