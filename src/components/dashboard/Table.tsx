@@ -17,7 +17,9 @@ const Table: React.FC<TableProps> = ({ headers, tableData }) => {
   });
 
   return (
-    <div className="scrollbar-thin overflow-x-auto min-h-60 widget-box w-full">
+    <div
+      className={`scrollbar-thin overflow-x-auto ${tableData.length >= 7 ? 'min-h-60' : 'min-h-18'} widget-box w-full`}
+    >
       <table className="min-w-full text-sm ">
         <TableHead
           headers={headers}
