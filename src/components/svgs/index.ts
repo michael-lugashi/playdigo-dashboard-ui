@@ -9,3 +9,4 @@ export { default as RefreshIcon } from './RefreshIcon';
 export { default as SettingsIcon } from './SettingsIcon';
 export { default as SolidTriangleArrowIcon } from './SolidTriangleArrowIcon';
 export { default as UserIcon } from './UserIcon';
+export { default as CopyIcon } from './CopyIcon';
