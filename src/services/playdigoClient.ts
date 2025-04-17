@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AuthResponse, DashboardData } from './playdigoClient.types';
+import { AuthResponse, DashboardData, User } from './playdigoClient.types';
 
 // Determine if we're running in development mode
 const isDevelopment = import.meta.env.MODE === 'development';
@@ -29,5 +29,10 @@ export const getPlaydigoDashboardData = async (graphOption: string): Promise<Das
       sheetName: graphOption,
     },
   });
+  return res.data;
+};
+
+export const getPlaydigoUsers = async (): Promise<User[]> => {
+  const res = await playdigoClient.get<User[]>('users');
   return res.data;
 };
