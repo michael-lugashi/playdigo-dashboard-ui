@@ -36,3 +36,8 @@ export const getPlaydigoUsers = async (): Promise<User[]> => {
   const res = await playdigoClient.get<User[]>('users');
   return res.data;
 };
+
+export const getAllPlaydigoGraphOptions = async (): Promise<string[]> => {
+  const res = await playdigoClient.get<string[]>('users/all-graph-options');
+  return res.data;
+};
