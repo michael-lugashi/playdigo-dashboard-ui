@@ -46,3 +46,8 @@ export const updatePlaydigoUser = async (id: string, updates: Partial<User>): Pr
   const res = await playdigoClient.put<User>(`users/${id}`, updates);
   return res.data;
 };
+
+export const createPlaydigoUser = async (user: Omit<User, 'id'>): Promise<User> => {
+  const res = await playdigoClient.post<User>('users/create', user);
+  return res.data;
+};
