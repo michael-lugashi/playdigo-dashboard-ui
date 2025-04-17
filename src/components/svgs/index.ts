@@ -4,6 +4,7 @@ export { default as ChartIcon } from './ChartIcon';
 export { default as ChevronDownIcon } from './ChevronDownIcon';
 export { default as HomeIcon } from './HomeIcon';
 export { default as NotificationIcon } from './NotificationIcon';
+export { default as PlusIcon } from './PlusIcon';
 export { default as RefreshIcon } from './RefreshIcon';
 export { default as SettingsIcon } from './SettingsIcon';
 export { default as SolidTriangleArrowIcon } from './SolidTriangleArrowIcon';
