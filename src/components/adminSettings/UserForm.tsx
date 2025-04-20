@@ -10,16 +10,15 @@ interface UserFormErrors {
   institutionName?: string;
   graphAccess?: string;
 }
-
-interface CreateUserPayload extends Omit<User, 'id'> {
+export interface CreateUserPayload extends Omit<User, 'id'> {
   password: string;
 }
 
 interface UserFormProps {
   user?: User;
-  onSubmit: (user: User | CreateUserPayload) => void;
+  onSubmit: (user: User | CreateUserPayload) => Promise<void>;
   onCancel: () => void;
-  generatePassword: () => string;
+  generatePassword: (password: string) => Promise<void>;
   availableGraphs: string[];
 }
 const defaultFormData: Omit<User, 'id'> = {
@@ -76,9 +75,10 @@ const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs 
     }
   };
 
-  const generateNewPassword = () => {
-    const newPassword = generatePassword();
-    setPassword(newPassword);
+  const generateNewPassword = async () => {
+    const passwordString = generatePasswordString();
+    await generatePassword(passwordString);
+    setPassword(passwordString);
   };
 
   const copyPasswordToClipboard = () => {
@@ -124,15 +124,15 @@ const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs 
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!validateForm()) return;
 
     if (user) {
       // For updating existing user - include ID but no password
-      onSubmit({ ...formData, id: user.id });
+      await onSubmit({ ...formData, id: user.id });
     } else {
       // For creating new user - include password but no ID
-      onSubmit({ ...formData, password });
+      await onSubmit({ ...formData, password });
     }
   };
 
@@ -217,7 +217,7 @@ const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs 
           {user && (
             <button
               type="button"
-              onClick={generateNewPassword}
+              onClick={() => void generateNewPassword()}
               className="bg-yellow-500 px-3 text-white py-2 rounded-md hover:bg-yellow-600 button-scale-5"
             >
               Generate New Password
@@ -248,7 +248,7 @@ const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs 
         <button type="button" onClick={onCancel} className="px-4 py-2 button-neutral button-scale-5">
           Cancel
         </button>
-        <button type="button" onClick={handleSubmit} className="px-4 py-2 button-primary button-scale-5">
+        <button type="button" onClick={() => void handleSubmit()} className="px-4 py-2 button-primary button-scale-5">
           {user ? 'Update User' : 'Create User'}
         </button>
       </div>

@@ -8,7 +8,6 @@ import Totals from './Totals';
 import Banner from './Banner';
 import ErrorDisplay from './ErrorDisplay';
 import Popup from '../general/Popup';
-import useAuth from '../../hooks/useAuth';
 
 interface TotalsData {
   spend: string;

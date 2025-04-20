@@ -51,3 +51,8 @@ export const createPlaydigoUser = async (user: Omit<User, 'id'>): Promise<User> 
   const res = await playdigoClient.post<User>('users/create', user);
   return res.data;
 };
+
+export const updatePlaydigoUserPassword = async (id: string, password: string): Promise<User> => {
+  const res = await playdigoClient.put<User>(`users/${id}/password`, { password });
+  return res.data;
+};
