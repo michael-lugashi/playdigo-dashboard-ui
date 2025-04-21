@@ -56,3 +56,7 @@ export const updatePlaydigoUserPassword = async (id: string, password: string): 
   const res = await playdigoClient.put<User>(`users/${id}/password`, { password });
   return res.data;
 };
+
+export const deletePlaydigoUser = async (id: string): Promise<void> => {
+  await playdigoClient.delete(`users/${id}`);
+};

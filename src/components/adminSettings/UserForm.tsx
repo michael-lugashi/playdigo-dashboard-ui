@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import TextField from '../general/TextField';
 import { User } from '../../services/playdigoClient.types';
 import CopyIcon from '../svgs/CopyIcon';
+import DeleteUserButton from './DeleteUserButton';
 
 interface UserFormErrors {
   email?: string;
@@ -20,6 +21,7 @@ interface UserFormProps {
   onCancel: () => void;
   generatePassword: (password: string) => Promise<void>;
   availableGraphs: string[];
+  onDelete?: () => Promise<void>;
 }
 const defaultFormData: Omit<User, 'id'> = {
   email: '',
@@ -30,7 +32,7 @@ const defaultFormData: Omit<User, 'id'> = {
   graphAccess: [],
 };
 
-const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs }: UserFormProps) => {
+const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs, onDelete }: UserFormProps) => {
   const [formData, setFormData] = useState<Omit<User, 'id'>>(defaultFormData);
   const [errors, setErrors] = useState<UserFormErrors>({});
   const [password, setPassword] = useState<string>('');
@@ -248,6 +250,7 @@ const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs 
         <button type="button" onClick={onCancel} className="px-4 py-2 button-neutral button-scale-5">
           Cancel
         </button>
+        {user && onDelete && <DeleteUserButton userName={`${user.firstName} ${user.lastName}`} onDelete={onDelete} />}
         <button type="button" onClick={() => void handleSubmit()} className="px-4 py-2 button-primary button-scale-5">
           {user ? 'Update User' : 'Create User'}
         </button>
