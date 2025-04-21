@@ -14,12 +14,14 @@ import {
 import { CreateUserPayload } from './UserForm';
 import isEqual from 'lodash.isequal';
 import { Toaster, toast } from 'sonner';
+import SearchBar from './SearchBar';
 
 const AdminSettings = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isAddingUser, setIsAddingUser] = useState(false);
   const [graphOptions, setGraphOptions] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     void (async () => {
@@ -128,7 +130,10 @@ const AdminSettings = () => {
             />
           </div>
         ) : (
-          <UserList users={users} onEditUser={setSelectedUser} />
+          <>
+            <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            <UserList users={users} onEditUser={setSelectedUser} searchQuery={searchQuery} />
+          </>
         )}
       </div>
     </div>
