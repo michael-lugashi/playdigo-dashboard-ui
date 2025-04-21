@@ -1,3 +1,5 @@
+import { SolidTriangleArrowIcon } from '../svgs';
+
 interface TableHeadProps {
   headers: string[];
   sortByHeader: number;
@@ -35,9 +37,11 @@ const TableHead: React.FC<TableHeadProps> = ({
             <span className="relative">
               {header}
               {i === sortByHeader && (
-                <span className="absolute -right-2.5 -top-1.5 text-cyan-400 text-xl">
-                  {sortDirection === 'asc' ? '↑' : '↓'}
-                </span>
+                <SolidTriangleArrowIcon
+                  className={`w-4 h-4 absolute -right-5 top-0.5 text-cyan-400 ${
+                    sortDirection === 'asc' ? 'rotate-0' : 'rotate-180'
+                  }`}
+                />
               )}
             </span>
           </th>

@@ -22,3 +22,13 @@ export interface DashboardData {
   graphData: GraphDataPoint[];
   headers: string[];
 }
+
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: 'ADMIN' | 'USER';
+  institutionName: string;
+  graphAccess: string[];
+}

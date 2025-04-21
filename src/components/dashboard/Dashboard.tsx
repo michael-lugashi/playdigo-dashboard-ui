@@ -8,7 +8,6 @@ import Totals from './Totals';
 import Banner from './Banner';
 import ErrorDisplay from './ErrorDisplay';
 import Popup from '../general/Popup';
-import useAuth from '../../hooks/useAuth';
 
 interface TotalsData {
   spend: string;
@@ -17,7 +16,6 @@ interface TotalsData {
 }
 
 function Dashboard() {
-  const { institutionName } = useAuth();
   const [graphOptions, setGraphOptions] = useState<string[]>([]);
   const [curGraphOption, setCurGraphOption] = useState<string>('');
   const [tableData, setTableData] = useState<TableDataRow[]>([]);
@@ -43,32 +41,34 @@ function Dashboard() {
 
   useEffect(() => {
     void (async () => {
-      const graphOptions = await getPlaydigoGraphOptions();
-      setGraphOptions(graphOptions);
-      setCurGraphOption(graphOptions[0]);
-      await fetchDashboardData(graphOptions[0]);
+      try {
+        const graphOptions = await getPlaydigoGraphOptions();
+        setGraphOptions(graphOptions);
+        setCurGraphOption(graphOptions[0]);
+        await fetchDashboardData(graphOptions[0]);
+      } catch {
+        setDisplayErrorPopup(true);
+      }
     })();
   }, []);
 
   return (
-    <div className="min-h-screen bg-dark-white flex flex-col items-center p-2">
-      <div className="w-full max-w-[1500px] flex flex-col gap-2 items-center">
-        <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
-          <ErrorDisplay onClose={() => setDisplayErrorPopup(false)} />
-        </Popup>
-        <Banner
-          graphOptions={graphOptions}
-          curGraphOption={curGraphOption}
-          setCurGraphOption={setCurGraphOption}
-          institutionName={institutionName}
-          lastUpdated={lastUpdated}
-          fetchDashboardData={fetchDashboardData}
-        />
-        <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
-        <Totals totals={calculatedTotals} />
-        <Chart graphData={displayGraphData} />
-        <Table tableData={displayTableData} headers={headers} />
-      </div>
+    <div className="bg-dark-white last:flex-1 h-screen p-2 w-full flex flex-col gap-2">
+      <Popup isOpen={displayErrorPopup} isCloseOnBackDropClick={true} onClose={() => setDisplayErrorPopup(false)}>
+        <ErrorDisplay onClose={() => setDisplayErrorPopup(false)} />
+      </Popup>
+      <Banner
+        graphOptions={graphOptions}
+        curGraphOption={curGraphOption}
+        setCurGraphOption={setCurGraphOption}
+        lastUpdated={lastUpdated}
+        fetchDashboardData={fetchDashboardData}
+      />
+
+      <TimeFrame setSelectedTimeFrame={setSelectedTimeFrame} />
+      <Totals totals={calculatedTotals} />
+      <Chart graphData={displayGraphData} />
+      <Table tableData={displayTableData} headers={headers} />
     </div>
   );
 }

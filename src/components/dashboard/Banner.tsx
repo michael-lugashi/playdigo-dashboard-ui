@@ -1,10 +1,11 @@
 import React from 'react';
 import playdigoLogo from '../../assets/images/playdigo_logo.jpeg';
 import CustomDropdown from '../general/CustomDropdown';
-
+import { RefreshIcon, SettingsIcon } from '../svgs';
+import useAuth from '../../hooks/useAuth';
+import { useNavigate } from 'react-router';
 interface BannerProps {
   lastUpdated?: string | null;
-  institutionName: string | null;
   fetchDashboardData: (graphOption: string) => Promise<void>;
   graphOptions: string[];
   curGraphOption: string;
@@ -13,12 +14,13 @@ interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({
   lastUpdated,
-  institutionName,
   fetchDashboardData,
   graphOptions,
   curGraphOption,
   setCurGraphOption,
 }) => {
+  const { institutionName, isAdmin } = useAuth();
+  const navigate = useNavigate();
   // Only show graph selector if there are multiple options
   const showGraphSelector = graphOptions.length > 1;
 
@@ -49,6 +51,18 @@ const Banner: React.FC<BannerProps> = ({
       </div>
 
       <div className="hidden md:flex items-center gap-2">
+        {isAdmin && (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => void navigate('/admin')}
+              type="button"
+              className="px-4 flex items-center gap-2 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium cursor-pointer hover:bg-blue-100 transition-colors duration-200"
+            >
+              <SettingsIcon className="h-4 w-4" />
+              Admin
+            </button>
+          </div>
+        )}
         {showGraphSelector && (
           <CustomDropdown
             options={graphOptions}
@@ -69,13 +83,7 @@ const Banner: React.FC<BannerProps> = ({
           type="button"
           className="px-4 py-2 bg-blue-50 text-blue-600 rounded-full text-sm font-medium cursor-pointer hover:bg-blue-100 transition-colors duration-200 flex items-center gap-2"
         >
-          <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              fillRule="evenodd"
-              d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <RefreshIcon className="h-4 w-4" />
           Refresh
         </button>
       </div>

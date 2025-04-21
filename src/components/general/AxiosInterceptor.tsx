@@ -28,7 +28,7 @@ const AxiosInterceptor: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     const errInterceptor = async (error: AxiosError) => {
       setIsLoading(false);
-      if (error.response?.status === 401) {
+      if (error.response?.status === 401 || error.response?.status === 403) {
         await navigate('/login');
       }
 

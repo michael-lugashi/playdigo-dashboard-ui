@@ -14,7 +14,7 @@ const Chart = ({ graphData }: ChartProps) => {
   return (
     <ResponsiveContainer width="100%" height={400} className="widget-box">
       <ComposedChart data={graphData}>
-        <CartesianGrid stroke="#ccc" />
+        <CartesianGrid stroke="#ccc" horizontal={true} vertical={false} />
         <XAxis dataKey="date" />
         <Legend verticalAlign="top" height={36} />
 
