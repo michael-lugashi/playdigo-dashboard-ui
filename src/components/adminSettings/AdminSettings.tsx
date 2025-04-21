@@ -13,6 +13,7 @@ import {
 } from '../../services/playdigoClient';
 import { CreateUserPayload } from './UserForm';
 import isEqual from 'lodash.isequal';
+import { Toaster, toast } from 'sonner';
 
 const AdminSettings = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -39,32 +40,58 @@ const AdminSettings = () => {
 
   const handleCreateUser = async (newUser: CreateUserPayload) => {
     // Dummy implementation - would normally call API
-    const newUserFromServer = await createPlaydigoUser(newUser);
-    setUsers([...users, newUserFromServer]);
-    setIsAddingUser(false);
+    try {
+      const newUserFromServer = await createPlaydigoUser(newUser);
+      setUsers([...users, newUserFromServer]);
+      setIsAddingUser(false);
+      toast.success('User created successfully');
+    } catch {
+      toast.error('Failed to create user');
+    }
   };
 
   const handleUpdateUser = async (updatedUser: User) => {
     // Dummy implementation - would normally call API
-    if (!selectedUser) throw new Error('No user selected');
-    const updates = getChangedValues(selectedUser, updatedUser);
-    const updatedUserFromServer = await updatePlaydigoUser(selectedUser.id, updates);
-    const updatedUsers = users.map((user) => (user.id === updatedUser.id ? updatedUserFromServer : user));
-    setUsers(updatedUsers);
-    setSelectedUser(null);
+    try {
+      if (!selectedUser) throw new Error('No user selected');
+      const updates = getChangedValues(selectedUser, updatedUser);
+      if (Object.keys(updates).length === 0) {
+        toast.info('No changes to update');
+        return;
+      }
+      const updatedUserFromServer = await updatePlaydigoUser(selectedUser.id, updates);
+      const updatedUsers = users.map((user) => (user.id === updatedUser.id ? updatedUserFromServer : user));
+      setUsers(updatedUsers);
+      toast.success('User updated successfully');
+    } catch {
+      toast.error('Failed to update user');
+    } finally {
+      setSelectedUser(null);
+    }
   };
 
   const handleGeneratePassword = async (password: string) => {
     // Dummy implementation - would normally call API
-    if (!selectedUser) throw new Error('No user selected');
-    await updatePlaydigoUserPassword(selectedUser.id, password);
+    try {
+      if (!selectedUser) throw new Error('No user selected');
+      await updatePlaydigoUserPassword(selectedUser.id, password);
+      toast.success('Password updated successfully');
+    } catch (error) {
+      toast.error('Failed to update password');
+      throw error;
+    }
   };
 
   const handleDeleteUser = async () => {
-    if (!selectedUser) throw new Error('No user selected');
-    await deletePlaydigoUser(selectedUser.id);
-    setUsers(users.filter((user) => user.id !== selectedUser.id));
-    setSelectedUser(null);
+    try {
+      if (!selectedUser) throw new Error('No user selected');
+      await deletePlaydigoUser(selectedUser.id);
+      setUsers(users.filter((user) => user.id !== selectedUser.id));
+      setSelectedUser(null);
+      toast.success('User deleted successfully');
+    } catch {
+      toast.error('Failed to delete user');
+    }
   };
 
   const handleAddUserClick = () => {
@@ -74,6 +101,7 @@ const AdminSettings = () => {
 
   return (
     <div className="min-h-screen bg-dark-white p-4">
+      <Toaster position="top-center" richColors />
       <div className="max-w-7xl mx-auto">
         <AdminBanner onAddUserClick={handleAddUserClick} />
 

@@ -3,7 +3,7 @@ import TextField from '../general/TextField';
 import { User } from '../../services/playdigoClient.types';
 import CopyIcon from '../svgs/CopyIcon';
 import DeleteUserButton from './DeleteUserButton';
-
+import { toast } from 'sonner';
 interface UserFormErrors {
   email?: string;
   firstName?: string;
@@ -85,6 +85,7 @@ const UserForm = ({ user, onSubmit, onCancel, generatePassword, availableGraphs,
 
   const copyPasswordToClipboard = () => {
     void navigator.clipboard.writeText(password);
+    toast.success('Password copied to clipboard');
   };
 
   const validateForm = (): boolean => {
